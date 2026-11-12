@@ -9,6 +9,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.util.Map;
 
 public class EnturTest {
@@ -17,7 +19,8 @@ public class EnturTest {
         {
               stopPlace(id: "NSR:StopPlace:31821") {
               name
-              estimatedCalls(numberOfDepartures: 5) {
+              estimatedCalls(numberOfDepartures: 10) {
+              date
               realtime
               cancellation                             
               aimedDepartureTime                                        
@@ -57,7 +60,18 @@ public class EnturTest {
             String aimed = call.path("aimedDepartureTime").asText();
             String expected = call.path("expectedDepartureTime").asText();
             String name = call.path("destinationDisplay").path("frontText").asText();
-            System.out.println("Route: " + name + "  \n Aimed depTime: " + aimed + " Expected depTime: " + expected);
+            String quay = call.path("quay").path("id").asText();
+            String date = call.path("date").asText();
+
+            OffsetDateTime aim = OffsetDateTime.parse(aimed);
+            OffsetDateTime exp = OffsetDateTime.parse(expected);
+
+            Long diffAimedTime = Duration.between(aim, exp).getSeconds();
+
+            //System.out.println(diffAimedTime);
+
+            System.out.println("Route: " + name +  " ID: " + quay + " Aimed depTime: " +
+                    aim + " Expected depTime: " + exp + " Date: " + date);
         }
 
     }
