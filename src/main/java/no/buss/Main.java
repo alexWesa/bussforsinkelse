@@ -5,22 +5,37 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.OffsetDateTime;
 import java.util.Map;
 
+import static java.time.LocalDate.now;
 
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        // Test 1: Jackson
-        ObjectMapper mapper = new ObjectMapper();
-        Map<?, ?> test = mapper.readValue("{\"hei\":\"verden\"}", Map.class);
-        System.out.println("Jackson virker: " + test);
-
-        // Test 2: database
         String url = "jdbc:postgresql://localhost:5432/bussforsinkelse";
         String user = System.getenv("DB_USER");
         String password = System.getenv("DB_PASSWORD");
+
+        Departure test = new Departure(
+          "NSR:StopPlace:31821",
+                now(),
+                "NSR:Quay:54834",
+                "6",
+                "Birkelundstoppen",
+                OffsetDateTime.now(),
+                OffsetDateTime.now().plusMinutes(4),
+                true,
+                false
+        );
+
+        DepartureRepository repo = new DepartureRepository(DriverManager.getConnection(url, user, password));
+
+        repo.save(test);
+
+
+
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
              Statement st = conn.createStatement();

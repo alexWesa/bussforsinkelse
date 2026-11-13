@@ -4,14 +4,14 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 public record Departure(
-        String service_journeyID,
-        LocalDate service_date,
-        String quay_id,
-        String line_code,
+        String serviceJourneyID,
+        LocalDate serviceDate,
+        String quayID,
+        String lineCode,
         String destination,
-        OffsetDateTime aimed_time,
-        OffsetDateTime expected_time,
-        Boolean realtime,
-        Boolean cancelled
+        OffsetDateTime aimedTime,
+        OffsetDateTime expectedTime,
+        boolean realtime,
+        boolean cancelled
 ) {
 }

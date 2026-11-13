@@ -1,9 +1,6 @@
 package no.buss;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
@@ -29,16 +26,20 @@ public class DepartureRepository {
         last_seen     = now()
     """;
 
-    private void save(Departure dep) {
-        String serviceJourneyID = dep.service_journeyID();
-        LocalDate serviceDate = dep.service_date();
-        String quay_id = dep.quay_id();
-        String line_code = dep.line_code();
-        String destination = dep.destination();
-        OffsetDateTime aimed_time = dep.aimed_time();
-        OffsetDateTime expected_time = dep.expected_time();
-        Boolean realtime = dep.realtime();
-        Boolean cancelled = dep.cancelled();
+    public void save(Departure dep) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement(UPSERT)) {
+            ps.setString(1, dep.serviceJourneyID());
+            ps.setObject(2, dep.serviceDate());
+            ps.setString(3, dep.quayID());
+            ps.setString(4, dep.lineCode());
+            ps.setString(5, dep.destination());
+            ps.setObject(6, dep.aimedTime());
+            ps.setObject(7, dep.expectedTime());
+            ps.setBoolean(8, dep.realtime());
+            ps.setBoolean(9, dep.cancelled());
+
+            ps.executeUpdate();
+        }
     }
 
     /**
