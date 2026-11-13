@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 public record Departure(
-        String serviceJourneyID,
+        String service_journeyID,
         LocalDate service_date,
         String quay_id,
         String line_code,

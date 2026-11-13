@@ -68,7 +68,7 @@ public class EnturTest {
 
             Long diffAimedTime = Duration.between(aim, exp).getSeconds();
 
-            //System.out.println(diffAimedTime);
+            System.out.println(diffAimedTime);
 
             System.out.println("Route: " + name +  " ID: " + quay + " Aimed depTime: " +
                     aim + " Expected depTime: " + exp + " Date: " + date);
