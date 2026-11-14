@@ -22,7 +22,7 @@ public class EnturClient {
         {
               stopPlace(id: "%s") {
               name
-              estimatedCalls(numberOfDepartures: 10) {
+              estimatedCalls(numberOfDepartures: 20) {
               date
               realtime
               cancellation                             
